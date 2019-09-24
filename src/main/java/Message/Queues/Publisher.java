@@ -35,24 +35,31 @@ public class Publisher {
 
         SendMessageRequest send_msg_request = new SendMessageRequest()
                 .withQueueUrl(queueUrlA)
-                .withQueueUrl(queueUrlB)
-                .withQueueUrl(queueUrlC)
-                .withMessageBody("hello world")
+                .withMessageBody("hello world for QA")
                 .withDelaySeconds(5);
         sqs.sendMessage(send_msg_request);
 
 
         // Send multiple messages to the queue
         SendMessageBatchRequest send_batch_request = new SendMessageBatchRequest()
-                .withQueueUrl(queueUrlA)
                 .withQueueUrl(queueUrlB)
+                .withEntries(
+                        new SendMessageBatchRequestEntry(
+                                "msg_1", "Hello from message 1 QB"),
+                        new SendMessageBatchRequestEntry(
+                                "msg_2", "Hello from message 2 QB")
+                                .withDelaySeconds(10));
+        sqs.sendMessageBatch(send_batch_request);
+
+
+        SendMessageBatchRequest send_batch_requests = new SendMessageBatchRequest()
                 .withQueueUrl(queueUrlC)
                 .withEntries(
                         new SendMessageBatchRequestEntry(
-                                "msg_1", "Hello from message 1"),
+                                "msg_1", "Hello from message 1 QC"),
                         new SendMessageBatchRequestEntry(
-                                "msg_2", "Hello from message 2")
+                                "msg_2", "Hello from message 2 QC")
                                 .withDelaySeconds(10));
-        sqs.sendMessageBatch(send_batch_request);
+        sqs.sendMessageBatch(send_batch_requests);
     }
 }
