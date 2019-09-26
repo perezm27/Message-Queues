@@ -34,20 +34,20 @@ public class Publisher {
         String queueUrlC = sqs.getQueueUrl(QUEUE_NAMEC).getQueueUrl();
 
         SendMessageRequest send_msg_request = new SendMessageRequest()
-                .withQueueUrl(queueUrlA)
-                .withMessageBody("hello world for QA")
+                .withQueueUrl(queueUrlB)
+                .withMessageBody("hello world this is for  QB")
                 .withDelaySeconds(5);
         sqs.sendMessage(send_msg_request);
 
 
         // Send multiple messages to the queue
         SendMessageBatchRequest send_batch_request = new SendMessageBatchRequest()
-                .withQueueUrl(queueUrlB)
+                .withQueueUrl(queueUrlA)
                 .withEntries(
                         new SendMessageBatchRequestEntry(
-                                "msg_1", "Hello from message 1 QB"),
+                                "msg_1", "Hello message 1 QA"),
                         new SendMessageBatchRequestEntry(
-                                "msg_2", "Hello from message 2 QB")
+                                "msg_2", "Hello message 2 QA")
                                 .withDelaySeconds(10));
         sqs.sendMessageBatch(send_batch_request);
 
